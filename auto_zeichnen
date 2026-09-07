@@ -1,0 +1,107 @@
+import sum.kern.*;
+/**
+ * Write a description of class testing here.
+ *
+ * @author (your name)
+ * @version (a version number or a date)
+ */
+public class testing
+{
+    Bildschirm canvas;
+    Buntstift pen;
+    Tastatur key;
+    private int x;
+    
+    /**
+     * Constructor for objects of class testing
+     */
+    public testing()
+    {
+        canvas = new Bildschirm(800, 800);
+        pen = new Buntstift();
+        key = new Tastatur();
+        x = 0;
+        
+        System.out.println(key.istGedrueckt());
+    }
+    
+    public void input_check()
+    {
+        while(true)
+        {
+            if(key.istGedrueckt(PFEILLINKS))
+            {
+                
+            }
+        }
+    }
+
+    public void malen_links()
+    {
+        pen.hoch();
+        pen.setzeLinienbreite(3);
+        pen.bewegeBis(200, 200);
+        pen.runter();
+        pen.dreheUm(45);
+        pen.bewegeUm(80);
+        pen.dreheUm(-45);
+        pen.bewegeUm(150);
+        pen.dreheUm(-45);
+        pen.bewegeUm(80);
+        pen.dreheUm(45);
+        pen.bewegeUm(65);
+        pen.dreheUm(-90);
+        pen.bewegeUm(60);
+        pen.dreheUm(-90);
+        pen.bewegeUm(55);
+        Reifen(24);
+        pen.bewegeUm(226);
+        Reifen(24);
+        pen.bewegeUm(56); //
+        pen.dreheUm(-90);
+        pen.bewegeUm(54);
+        pen.dreheUm(-80);
+        pen.bewegeUm(32);
+        pen.dreheUm(-10);
+        pen.bewegeUm(75);
+    }
+    
+    public void malen_rechts()
+    {
+        pen.hoch();
+        pen.setzeLinienbreite(3);
+        pen.bewegeBis(400, 200);
+        pen.runter();
+        pen.dreheUm(135);
+        pen.bewegeUm(80);
+        pen.dreheUm(45);
+        pen.bewegeUm(150);
+        pen.dreheUm(45);
+        pen.bewegeUm(80);
+        pen.dreheUm(-45);
+        pen.bewegeUm(65);
+        pen.dreheUm(90);
+        pen.bewegeUm(60);
+        pen.dreheUm(90);
+        pen.bewegeUm(55);
+        Reifen(24);
+        pen.bewegeUm(226);
+        Reifen(24);
+        pen.bewegeUm(56); //
+        pen.dreheUm(90);
+        pen.bewegeUm(54);
+        pen.dreheUm(80);
+        pen.bewegeUm(32);
+        pen.dreheUm(10);
+        pen.bewegeUm(75);
+    }
+    
+    public void Reifen(int radius)
+    {
+        pen.hoch();
+        pen.bewegeUm(radius);
+        pen.zeichneKreis(radius);
+        pen.bewegeUm(radius);
+        pen.runter();
+    }
+}
