@@ -1,0 +1,68 @@
+
+import sum.kern.*;
+
+public class Auto 
+{
+    // protected erlaubt der Unterklasse den direkten Zugriff auf den Stift
+    protected Buntstift hatBuntstift;
+    private Bildschirm kenntBildschirm;
+    private double zGeschwindigkeit;
+    
+    // Konstruktor der Basisklasse
+    public Auto(double pAnfangH, double pAnfangV, double pGeschwindigkeit, int pRichtung)
+    {
+        zGeschwindigkeit = pGeschwindigkeit;
+        hatBuntstift = new Buntstift();
+        hatBuntstift.bewegeBis(pAnfangH, pAnfangV);
+        hatBuntstift.dreheBis(pRichtung);
+    }
+    
+    public void gibFrei()
+    {
+        hatBuntstift.gibFrei();
+    }
+    
+    public void merke(Bildschirm pBildschirm)
+    {
+        kenntBildschirm = pBildschirm;
+    } 
+    
+    public void bewege()
+    {
+        loesche();
+        hatBuntstift.bewegeUm(zGeschwindigkeit);
+        zeichne(); 
+    }
+    
+    // Ruft intern zeichne() auf – durch Vererbung wird hier automatisch 
+    // die zeichne()-Methode der Unterklasse aufgerufen!
+    //public void loesche()
+    //{
+    //    hatBuntstift.radiere();
+    //    kenntBildschirm.loescheAlles();
+    //    hatBuntstift.normal();
+    //}
+    public void loesche() { hatBuntstift.runter(); }
+    public void zeichne() { hatBuntstift.runter(); }
+    // Standard-Zeichnung (wird von der Unterklasse überschrieben)
+    //public void zeichne()
+    //{
+    //    hatBuntstift.zeichneKreis(10); 
+    //}
+    
+    public double hPosition() { return hatBuntstift.hPosition(); }
+    public double vPosition() { return hatBuntstift.vPosition(); }
+    // Erlaubt es, das Auto im Spiel zu drehen (z.B. pWinkel = 90 für eine Rechtskurve)
+    public void dreheUm(double pWinkel)
+    {
+        loesche();
+        hatBuntstift.dreheUm(pWinkel);
+    }
+    
+    // Erlaubt es, das Auto zu beschleunigen oder zu stoppen
+    public void setzeGeschwindigkeit(double pGeschwindigkeit)
+    {
+        zGeschwindigkeit = pGeschwindigkeit;
+    }
+
+}
