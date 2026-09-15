@@ -1,0 +1,105 @@
+import sum.kern.*;
+
+public class Rennspiel
+{
+    private Bildschirm derBildschirm;
+    private Maus meineMaus;
+    private Tastatur meineTastatur; // NEU: Tastatur-Objekt deklarieren
+    private Auto meinAuto1;
+    private Auto meinAuto2;
+
+    public Rennspiel()
+    {
+        derBildschirm = new Bildschirm(1000, 800);
+        meineMaus = new Maus();
+        meineTastatur = new Tastatur(); // NEU: Tastatur initialisieren
+        
+        // Auto startet in der Mitte, steht vorerst still (Geschwindigkeit 0)
+        meinAuto1 = new Karosserie(200, 300, 0, 0); 
+        meinAuto1.merke(derBildschirm);
+        meinAuto2 = new Karosserie(400, 500, 0, 0); 
+        meinAuto2.merke(derBildschirm);
+        fuehreAus();
+    }
+
+    public void fuehreAus()
+    {
+        meinAuto1.zeichne();
+        meinAuto2.zeichne();
+        do
+        {
+            // Wenn eine Taste gedrückt wurde, werten wir sie aus
+            if (meineTastatur.wurdeGedrueckt())
+            {
+                char taste = meineTastatur.zeichen();
+                
+                switch (taste)
+                {
+                    case 'w': case 'W':
+                        meinAuto1.setzeGeschwindigkeit(4); // Vorwärts fahren
+                        break;
+                    case 's': case 'S':
+                        meinAuto1.setzeGeschwindigkeit(-4); // Rückwärts fahren
+                        break;
+                    case 'a': case 'A':
+                        meinAuto1.dreheUm(-15); // Nach links lenken (15 Grad)
+                        break;
+                    case 'd': case 'D':
+                        meinAuto1.dreheUm(15); // Nach rechts lenken (15 Grad)
+                        break;
+                    case 'x': case 'X':
+                        meinAuto1.setzeGeschwindigkeit(0); // Bremsen / Anhalten
+                        break;
+                    case 'e': case 'E':
+                        meinAuto1.setzeGeschwindigkeit(12); // Vorwärts fahren
+                        break;
+                    case 'i': case 'I':
+                        meinAuto2.setzeGeschwindigkeit(4); // Vorwärts fahren
+                        break;
+                    case 'k': case 'K':
+                        meinAuto2.setzeGeschwindigkeit(-4); // Rückwärts fahren
+                        break;
+                    case 'j': case 'J':
+                        meinAuto2.dreheUm(-15); // Nach links lenken (15 Grad)
+                        break;
+                    case 'l': case 'L':
+                        meinAuto2.dreheUm(15); // Nach rechts lenken (15 Grad)
+                        break;
+                    case '.': case ':':
+                        meinAuto2.setzeGeschwindigkeit(0); // Bremsen / Anhalten
+                        break;
+                    case 'o': case 'O':
+                        meinAuto2.setzeGeschwindigkeit(12); // Vorwärts fahren
+                        break;
+                }
+                
+                // Wichtig: Taste aus dem SuM-Speicher löschen, um bereit für die nächste zu sein
+                meineTastatur.weiter();
+            }
+            
+            // Das Auto bewegt sich kontinuierlich mit der aktuellen Geschwindigkeit
+            
+            
+            // Kurze Pause für eine flüssige Darstellung
+            //try { Thread.sleep(20); } catch (Exception e) {}
+            
+            
+            // Das Auto bewegt sich kontinuierlich mit der aktuellen Geschwindigkeit
+            meinAuto1.bewege();
+            meinAuto2.bewege();
+            
+            // Kurze Pause für eine flüssige Darstellung
+            //try { Thread.sleep(20); } catch (Exception e) {}
+            
+        } while (1==1); // Spiel endet bei Mausklick
+        
+        // Aufräumen
+        //meinAuto2.gibFrei();
+        //meineMaus.gibFrei();
+        //meineTastatur.gibFrei(); // NEU: Tastatur freigeben
+        //derBildschirm.gibFrei();
+    }
+    }
+
+
+
