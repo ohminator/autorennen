@@ -1,0 +1,84 @@
+
+import sum.kern.*;
+
+public class Karosserie extends Auto
+{
+    // Der Konstruktor reicht die Werte an die Basisklasse (Auto) weiter
+    public Karosserie(double pAnfangH, double pAnfangV, double pGeschwindigkeit, int pRichtung)
+    {
+        super(pAnfangH, pAnfangV, pGeschwindigkeit, pRichtung);
+    }
+
+    // Überschreibt die zeichne-Methode der Basisklasse
+    @Override
+    public void zeichne()
+    {
+        // Aktuelle Position sichern, damit relative Bewegungen den Stift nicht dauerhaft verschieben
+        double startH = hatBuntstift.hPosition();
+        double startV = hatBuntstift.vPosition();
+        double startWinkel = hatBuntstift.winkel();
+
+        hatBuntstift.setzeLinienBreite(2);
+        
+        // Umriss
+        hatBuntstift.runter();
+        hatBuntstift.bewegeUm(200);
+        hatBuntstift.dreheUm(90);
+        hatBuntstift.bewegeUm(100);
+        hatBuntstift.dreheUm(90);
+        hatBuntstift.bewegeUm(200);
+        hatBuntstift.dreheUm(90);
+        hatBuntstift.bewegeUm(100);
+        hatBuntstift.hoch();
+        
+        // Spitze
+        hatBuntstift.dreheUm(90);
+        hatBuntstift.bewegeUm(200);
+        hatBuntstift.runter();
+        hatBuntstift.dreheUm(45);
+        hatBuntstift.bewegeUm(70);
+        hatBuntstift.dreheUm(90);
+        hatBuntstift.bewegeUm(70);
+        hatBuntstift.dreheUm(45);
+        hatBuntstift.bewegeUm(200);
+        hatBuntstift.hoch();
+        
+        // Spoiler
+        hatBuntstift.dreheUm(90);
+        hatBuntstift.bewegeUm(50);
+        hatBuntstift.dreheUm(-90);
+        hatBuntstift.runter();
+        hatBuntstift.bewegeUm(25);
+        hatBuntstift.dreheUm(-90);
+        hatBuntstift.bewegeUm(45);
+        hatBuntstift.dreheUm(180);
+        hatBuntstift.bewegeUm(90);
+        
+        // Räder
+        hatBuntstift.hoch();
+        hatBuntstift.bewegeUm(5);
+        hatBuntstift.dreheUm(90);
+        hatBuntstift.bewegeUm(75);
+        hatBuntstift.runter();
+        hatBuntstift.zeichneKreis(20);
+        hatBuntstift.bewegeUm(100);
+        hatBuntstift.zeichneKreis(20);
+        
+        
+        // Stift präzise für die Weiterbewegung zurücksetzen
+        hatBuntstift.hoch();
+        hatBuntstift.bewegeBis(startH, startV);
+        hatBuntstift.dreheBis(startWinkel);
+    }
+    
+    public void loesche()
+    {
+        hatBuntstift.runter();
+        hatBuntstift.radiere();
+        zeichne();
+        hatBuntstift.normal();
+    }
+}
+
+
+
