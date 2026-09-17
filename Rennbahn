@@ -1,0 +1,48 @@
+
+import sum.kern.*;
+
+public class Rennbahn
+{
+    private Bildschirm kenntBildschirm;
+
+    // Konstruktor erwartet den Bildschirm, auf dem gezeichnet werden soll
+    public Rennbahn(Bildschirm pBildschirm)
+    {
+        kenntBildschirm = pBildschirm;
+        //streckeZeichnen();
+        
+    }
+
+    // Zeichnet die komplette Rennstrecke (äußere und innere Begrenzung + Startlinie)
+    public void streckeZeichnen()
+    {
+        Buntstift stift = new Buntstift();
+        
+        
+        // Äußere Begrenzung der Rennbahn
+        stift.bewegeBis(50, 100);
+        stift.runter();
+        stift.bewegeBis(950, 100);
+        stift.bewegeBis(950, 700);
+        stift.bewegeBis(50, 700);
+        stift.bewegeBis(50, 100);
+        stift.hoch();
+
+        // Innere Begrenzung der Rennbahn (Insel in der Mitte)
+        stift.bewegeBis(250, 250);
+        stift.runter();
+        stift.bewegeBis(750, 250);
+        stift.bewegeBis(750, 550);
+        stift.bewegeBis(250, 550);
+        stift.bewegeBis(250, 250);
+        stift.hoch();
+
+        // Start- und Ziellinie
+        stift.bewegeBis(150, 100);
+        stift.runter();
+        stift.bewegeBis(150, 250);
+        stift.hoch();
+        
+        stift.gibFrei(); 
+    }
+}
