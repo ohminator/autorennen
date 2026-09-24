@@ -1,0 +1,87 @@
+import sum.kern.*;
+import java.io.File;
+
+public class Bombe
+{
+    private double AnfangH;
+    private double AnfangV;
+    private Buntstift hatBuntstift;
+    private Bildschirm derBildschirm;
+    
+    private boolean istExplodiert;
+    private boolean spielVorbei;
+
+    public Bombe(double pAnfangH, double pAnfangV)
+    {
+        AnfangH = pAnfangH;
+        AnfangV = pAnfangV;
+        
+        hatBuntstift = new Buntstift();
+        istExplodiert = false;
+        spielVorbei = false;
+    }
+
+    // Löscht die Bombe an der alten Position
+    public void loesche()
+    {
+        hatBuntstift.radiere();
+        zeichneForm();
+        hatBuntstift.normal();
+    }
+
+    // Zeichnet die eigentliche Form der Bombe
+    private void zeichneForm()
+    {
+        // KORREKTUR: Erst hochnehmen, zur Position bewegen, ausrichten, dann runterlassen
+        hatBuntstift.hoch();
+        hatBuntstift.bewegeBis(AnfangH, AnfangV);
+        hatBuntstift.dreheBis(0); // Setzt die Blickrichtung nach rechts zurück
+        
+        hatBuntstift.runter();
+        hatBuntstift.setzeLinienBreite(2);
+        
+        // Zeichnet ein Rechteck (50x30) mit Aufschrift
+        hatBuntstift.bewegeUm(50);
+        hatBuntstift.dreheUm(90);
+        hatBuntstift.bewegeUm(30);
+        hatBuntstift.dreheUm(90);
+        hatBuntstift.bewegeUm(50);
+        hatBuntstift.dreheUm(90);
+        hatBuntstift.bewegeUm(30);
+        
+        hatBuntstift.dreheUm(180);
+        hatBuntstift.bewegeUm(15);
+        hatBuntstift.dreheUm(-90);
+        hatBuntstift.schreibeText("Kaboom");
+        
+        hatBuntstift.hoch();
+    }
+
+    public void zeichne()
+    {
+        if (spielVorbei) return;
+        zeichneForm();
+    }
+
+    public void zeichneGameOver()
+    {
+        hatBuntstift.hoch();
+        hatBuntstift.dreheBis(0); 
+        hatBuntstift.bewegeBis(250, 400); 
+        hatBuntstift.runter();
+        hatBuntstift.setzeLinienBreite(5);
+        hatBuntstift.schreibeText("GAME OVER! Rick Roll startet...");
+        hatBuntstift.hoch();
+    }
+
+    public void merke(Bildschirm pBildschirm)
+    {
+        derBildschirm = pBildschirm;
+    }
+
+    public boolean istSpielVorbei()
+    {
+        return spielVorbei;
+    }
+}
+
