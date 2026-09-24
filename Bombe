@@ -1,5 +1,6 @@
 import sum.kern.*;
 import java.io.File;
+import java.awt.Desktop; // NEU: Ermöglicht das Öffnen von Dateien mit dem Standardprogramm
 
 public class Bombe
 {
@@ -7,14 +8,19 @@ public class Bombe
     private double AnfangV;
     private Buntstift hatBuntstift;
     private Bildschirm derBildschirm;
+    private Auto Auto1;
+    private Auto Auto2;
     
     private boolean istExplodiert;
     private boolean spielVorbei;
 
-    public Bombe(double pAnfangH, double pAnfangV)
+    public Bombe(double pAnfangH, double pAnfangV, Auto pAuto1, Auto pAuto2)
     {
         AnfangH = pAnfangH;
         AnfangV = pAnfangV;
+        
+        Auto1 = pAuto1;
+        Auto2 = pAuto2;
         
         hatBuntstift = new Buntstift();
         istExplodiert = false;
@@ -25,22 +31,20 @@ public class Bombe
     public void loesche()
     {
         hatBuntstift.radiere();
-        zeichneForm();
+        zeichne();
         hatBuntstift.normal();
     }
 
     // Zeichnet die eigentliche Form der Bombe
-    private void zeichneForm()
+    public void zeichne()
     {
-        // KORREKTUR: Erst hochnehmen, zur Position bewegen, ausrichten, dann runterlassen
         hatBuntstift.hoch();
         hatBuntstift.bewegeBis(AnfangH, AnfangV);
-        hatBuntstift.dreheBis(0); // Setzt die Blickrichtung nach rechts zurück
+        hatBuntstift.dreheBis(0); 
         
         hatBuntstift.runter();
         hatBuntstift.setzeLinienBreite(2);
         
-        // Zeichnet ein Rechteck (50x30) mit Aufschrift
         hatBuntstift.bewegeUm(50);
         hatBuntstift.dreheUm(90);
         hatBuntstift.bewegeUm(30);
@@ -57,10 +61,10 @@ public class Bombe
         hatBuntstift.hoch();
     }
 
-    public void zeichne()
+    public void zeichne_dashieristeineganzdummemethodedienichtskannundniemandvermissenwird()
     {
         if (spielVorbei) return;
-        zeichneForm();
+        zeichne();
     }
 
     public void zeichneGameOver()
@@ -72,6 +76,35 @@ public class Bombe
         hatBuntstift.setzeLinienBreite(5);
         hatBuntstift.schreibeText("GAME OVER! Rick Roll startet...");
         hatBuntstift.hoch();
+        
+        // ÄNDERUNG: Ruft die neue Methode für die MP4-Datei auf
+        this.oeffneDatei("\\SUGPSRV01\\StudentsHome$\\Luis.Da\\Data\\Download\\kaboom-yes-rico-kaboom.mp4");
+    }
+
+    // NEU: Diese Methode öffnet jede Datei (MP4, MP3, WAV, etc.) im passenden Standardprogramm/Browser
+    private void oeffneDatei(String dateiPfad)
+    {
+        try {
+            File datei = new File(dateiPfad);
+            if (datei.exists()) {
+                // Nutzt das Betriebssystem, um das Video im Standard-Player oder Browser zu starten
+                Desktop.getDesktop().open(datei);
+            } else {
+                System.out.println("Datei nicht gefunden: " + datei.getAbsolutePath());
+            }
+        } catch (Exception e) {
+            System.out.println("Fehler beim Öffnen der Datei: " + e.getMessage());
+        }
+    }
+
+    public double getH()
+    {
+        return AnfangH;
+    }
+
+    public double getV()
+    {
+        return AnfangV;
     }
 
     public void merke(Bildschirm pBildschirm)
@@ -83,5 +116,21 @@ public class Bombe
     {
         return spielVorbei;
     }
+    
+    public void kollisionpruefen()
+    { 
+        double v1 = Auto1.vPosition();
+        double v2 = Auto2.vPosition();
+        double h1 = Auto1.hPosition();
+        double h2 = Auto2.hPosition();
+        
+        if (((v1 >= (AnfangV - 5) && v1 <= (AnfangV + 5)) ||
+         (v2 >= (AnfangV - 5) && v2 <= (AnfangV + 5)))
+        &&
+        ((h1 >= (AnfangH - 5) && h1 <= (AnfangH + 5)) ||
+         (h2 >= (AnfangH - 5) && h2 <= (AnfangH + 5))))
+        {
+            zeichneGameOver();
+        }
+    }
 }
-
